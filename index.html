@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Real-world evaluation results for MobileVLA-R1 2.0.">
+  <title>MobileVLA-R1 2.0 — Real World Eval</title>
+  <style>
+    :root {
+      --black: #080908;
+      --panel: #11120f;
+      --panel-soft: #171812;
+      --yellow: #ffd400;
+      --yellow-soft: #ffe760;
+      --white: #f5f4eb;
+      --muted: #a5a697;
+      --line: rgba(255, 212, 0, 0.22);
+      --page: 1580px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--black);
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 78% 4%, rgba(255, 212, 0, 0.12), transparent 22rem),
+        linear-gradient(rgba(255, 212, 0, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 212, 0, 0.025) 1px, transparent 1px),
+        var(--black);
+      background-size: auto, 42px 42px, 42px 42px, auto;
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 64px;
+      padding: 0 4vw;
+      border-bottom: 1px solid var(--line);
+      background: rgba(8, 9, 8, 0.84);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 26px;
+      height: 26px;
+      place-items: center;
+      color: var(--black);
+      background: var(--yellow);
+      font-size: 0.7rem;
+      font-weight: 900;
+      transform: rotate(-3deg);
+    }
+
+    .topbar a {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 180ms ease;
+    }
+
+    .topbar a:hover { color: var(--yellow); }
+
+    .hero {
+      width: min(var(--page), 92vw);
+      margin: 0 auto;
+      padding: clamp(84px, 11vw, 160px) 0 clamp(72px, 9vw, 124px);
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 24px;
+      color: var(--yellow);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 34px;
+      height: 3px;
+      content: "";
+      background: var(--yellow);
+    }
+
+    h1 {
+      max-width: 1260px;
+      margin: 0;
+      font-size: clamp(3rem, 7.3vw, 8.2rem);
+      font-weight: 850;
+      letter-spacing: -0.065em;
+      line-height: 0.91;
+    }
+
+    h1 .version {
+      color: var(--yellow);
+      white-space: nowrap;
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: minmax(260px, 650px) auto;
+      gap: 40px;
+      align-items: end;
+      margin-top: clamp(40px, 6vw, 78px);
+    }
+
+    .hero-meta p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.3vw, 1.25rem);
+      line-height: 1.65;
+    }
+
+    .stats {
+      display: flex;
+      gap: 34px;
+      justify-content: flex-end;
+      margin: 0;
+    }
+
+    .stat dt {
+      color: var(--muted);
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .stat dd {
+      margin: 4px 0 0;
+      color: var(--yellow);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 1.65rem;
+      font-weight: 800;
+    }
+
+    main {
+      border-top: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .section {
+      width: min(var(--page), 92vw);
+      margin: 0 auto;
+      padding: clamp(72px, 8vw, 120px) 0 120px;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 22px;
+      align-items: center;
+      margin-bottom: 42px;
+    }
+
+    .section-number {
+      color: var(--yellow);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4.2vw, 4.8rem);
+      font-weight: 820;
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+
+    .section-note {
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eval-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .sim-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .sim-grid .video-pair {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .section + .section {
+      border-top: 1px solid var(--line);
+    }
+
+    .eval-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(145deg, rgba(24, 25, 19, 0.98), rgba(13, 14, 11, 0.98));
+      transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    .eval-card::before {
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 0;
+      height: 3px;
+      content: "";
+      background: var(--yellow);
+      transition: width 260ms ease;
+      z-index: 2;
+    }
+
+    .eval-card:hover {
+      border-color: rgba(255, 212, 0, 0.48);
+      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.38);
+      transform: translateY(-4px);
+    }
+
+    .eval-card:hover::before { width: 100%; }
+
+    .card-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 18px 14px;
+    }
+
+    .episode {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .episode::before {
+      width: 7px;
+      height: 7px;
+      content: "";
+      border-radius: 50%;
+      background: var(--yellow);
+      box-shadow: 0 0 12px rgba(255, 212, 0, 0.75);
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .video-pair {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2px;
+      background: var(--yellow);
+    }
+
+    .video-frame {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+
+    .video-frame video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .view-label {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 1;
+      padding: 4px 6px;
+      color: var(--black);
+      background: rgba(255, 212, 0, 0.94);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.54rem;
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      pointer-events: none;
+      text-transform: uppercase;
+    }
+
+    .prompt {
+      min-height: 124px;
+      padding: 18px;
+    }
+
+    .prompt-label {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--yellow);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .prompt p {
+      margin: 0;
+      color: #d7d7ca;
+      font-size: 0.83rem;
+      line-height: 1.52;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      width: min(var(--page), 92vw);
+      margin: 0 auto;
+      padding: 28px 0 42px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.67rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 1080px) {
+      .eval-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .sim-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar { padding: 0 5vw; }
+      .hero, .section, footer { width: 90vw; }
+      .hero { padding-top: 72px; }
+      .hero-meta { grid-template-columns: 1fr; }
+      .stats { justify-content: flex-start; }
+      .section-heading { grid-template-columns: auto 1fr; }
+      .section-note { display: none; }
+      .eval-grid, .sim-grid { grid-template-columns: 1fr; }
+      .prompt { min-height: auto; }
+      footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .eval-card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">R1</span> MobileVLA Research</div>
+    <a href="#real-world">View evaluations ↓</a>
+  </header>
+
+  <section class="hero" aria-labelledby="page-title">
+    <p class="eyebrow">Vision · Language · Action</p>
+    <h1 id="page-title">MobileVLA-R1 <span class="version">2.0:</span><br>RL-Enhanced Reasoning for Mobile Robot Control</h1>
+    <div class="hero-meta">
+      <p>Real-world demonstrations of long-horizon instruction following, spatial reasoning, locomotion, and mobile manipulation from synchronized egocentric and exocentric views.</p>
+      <dl class="stats" aria-label="Evaluation summary">
+        <div class="stat"><dt>Episodes</dt><dd>13</dd></div>
+        <div class="stat"><dt>Views</dt><dd>30</dd></div>
+        <div class="stat"><dt>Settings</dt><dd>02</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <main>
+    <section class="section" id="real-world" aria-labelledby="real-world-title">
+      <div class="section-heading">
+        <span class="section-number">01 /</span>
+        <h2 id="real-world-title">Real World Eval</h2>
+        <span class="section-note">Ego + Exo synchronized views</span>
+      </div>
+      <div class="eval-grid" id="eval-grid"></div>
+    </section>
+
+    <section class="section" id="navigation-simulation" aria-labelledby="navigation-simulation-title">
+      <div class="section-heading">
+        <span class="section-number">02 /</span>
+        <h2 id="navigation-simulation-title">Navigation Simulation</h2>
+        <span class="section-note">BEV + Ego + Depth views</span>
+      </div>
+      <div class="sim-grid" id="sim-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>MobileVLA-R1 2.0</span>
+    <span>RL-Enhanced Reasoning for Mobile Robot Control</span>
+  </footer>
+
+  <script>
+    const episodes = [
+      "Starting from the initial position, walk forward to find a cardboard box, stop in front of it, and lie down.",
+      "Starting from the initial position, walk forward until you find a trash can, stop in front of it, and then greet it.",
+      "Starting from the initial position, avoid the cardboard boxes and trash cans, turn right at the second door, stop there, and sit down.",
+      "Starting from your initial position, walk to the right and find a black bicycle. Once you find it, sit down next to it.",
+      "Turn left and slowly go up the stairs, then walk straight ahead for five seconds and stop. Turn right and descend the stairs smoothly.",
+      "Starting from your starting position, walk straight ahead until you see a forest, then turn right and stop and stand upside down for three seconds.",
+      "Starting from the initial position, navigate to the target area, locate the trash, pick it up, and place it in the designated trash bin.",
+      "Starting from the initial position, navigate to the closet, locate the target fruit, grasp it, and place it inside the closet.",
+      "Starting from the initial position, walk toward the fruit bucket, stop in front of it, grasp the bucket, and lift it up."
+    ];
+
+    const grid = document.querySelector("#eval-grid");
+
+    episodes.forEach((prompt, index) => {
+      const id = String(index + 1).padStart(2, "0");
+      const article = document.createElement("article");
+      article.className = "eval-card";
+      article.innerHTML = `
+        <div class="card-topline">
+          <h3 class="episode">Episode ${id}</h3>
+          <span class="status">Real world</span>
+        </div>
+        <div class="video-pair">
+          <div class="video-frame">
+            <span class="view-label">Ego</span>
+            <video controls autoplay muted loop playsinline preload="metadata" aria-label="Episode ${id} egocentric view">
+              <source src="video/real_world/${id}_ego.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-frame">
+            <span class="view-label">Exo</span>
+            <video controls autoplay muted loop playsinline preload="metadata" aria-label="Episode ${id} exocentric view">
+              <source src="video/real_world/${id}_exo.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="prompt">
+          <span class="prompt-label">Instruction prompt</span>
+          <p>${prompt}</p>
+        </div>`;
+      grid.appendChild(article);
+    });
+
+    const simulations = [
+      "Walk through doorway towards the tub, turn left and walk towards the bar, right before the bar turn left, walk up the stairs and walk through the first door on the right, stop right before the table.",
+      "Walk around the bed and exit the room. Turn right and walk into the room with another bed in it. Stop at the side of the bed.",
+      "Walk away from the pool, up the three marble steps to the left of the bar, walk through the doorway, up three more steps, and stop in the doorway on the right.",
+      "Exit the room, then immediately turn left through the doorway. Wait by the double doors."
+    ];
+
+    const simGrid = document.querySelector("#sim-grid");
+
+    simulations.forEach((prompt, index) => {
+      const id = String(index + 1).padStart(2, "0");
+      const article = document.createElement("article");
+      article.className = "eval-card";
+      article.innerHTML = `
+        <div class="card-topline">
+          <h3 class="episode">Episode ${id}</h3>
+          <span class="status">Simulation</span>
+        </div>
+        <div class="video-pair">
+          <div class="video-frame">
+            <span class="view-label">BEV</span>
+            <video controls autoplay muted loop playsinline preload="metadata" aria-label="Simulation episode ${id} bird's-eye view">
+              <source src="video/simulator/${id}_bev.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-frame">
+            <span class="view-label">Ego</span>
+            <video controls autoplay muted loop playsinline preload="metadata" aria-label="Simulation episode ${id} egocentric view">
+              <source src="video/simulator/${id}_ego.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-frame">
+            <span class="view-label">Depth</span>
+            <video controls autoplay muted loop playsinline preload="metadata" aria-label="Simulation episode ${id} egocentric depth view">
+              <source src="video/simulator/${id}_ego_depth.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="prompt">
+          <span class="prompt-label">Instruction prompt</span>
+          <p>${prompt}</p>
+        </div>`;
+      simGrid.appendChild(article);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Starting from the initial position, navigate to the closet, locate the target fruit, grasp it, and place it inside the closet.

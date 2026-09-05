@@ -1,0 +1,1 @@
+Starting from the initial position, walk toward the fruit bucket, stop in front of it, grasp the bucket, and lift it up.
