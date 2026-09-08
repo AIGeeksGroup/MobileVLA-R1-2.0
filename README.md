@@ -14,6 +14,9 @@ Code implementation for the paper:
 
 MobileVLA-R1 2.0 connects structured embodied reasoning with executable mobile robot control. Building on MobileVLA-R1, the framework introduces a reasoning-conditioned action decoder that maps observation and reasoning representations to continuous locomotion targets and discrete behavior primitives.
 
+
+![image](./assets/structure-r2.png)
+
 The framework follows a perception–reasoning–action pipeline:
 
 - **Multimodal perception:** RGB, depth, and point-cloud features are projected into a shared language-model hidden space.
