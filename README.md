@@ -7,6 +7,8 @@ Code implementation for the paper:
 > [Ting Huang](https://github.com/Believeht029)\*, [Yue Huang](https://github.com/hyue060825-boop)\*, [Zeyu Zhang](https://steve-zeyu-zhang.github.io/)\*†, [Shuicheng Yan](https://yanshuicheng.info/), and [Hao Tang](https://ha0tang.github.io/)‡
 >
 > \*Equal contribution. †Project lead. ‡Corresponding author.
+> 
+> ### [Paper]() | [Website](https://aigeeksgroup.github.io/MobileVLA-R1-2.0/) | [Model](https://huggingface.co/AIGeeksGroup/MobileVLA-R1-2.0)
 
 ---
 
