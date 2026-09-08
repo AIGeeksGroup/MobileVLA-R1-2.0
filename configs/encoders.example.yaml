@@ -1,0 +1,22 @@
+# Replace model.encoders in all three training configs with this mapping if raw
+# observations are used. Install DAV2 and Pointcept in the training environment.
+# Checkpoint dimensions/architecture must match feature_dims; no random fallback.
+rgb:
+  type: rgb
+  path: checkpoints/navila/vision_tower
+  layer: -2
+  feature: auto
+depth:
+  type: depth_anything_v2
+  checkpoint: checkpoints/depth_anything_v2_vitl.pth
+  variant: vitl
+  image_size: 518
+point:
+  type: point_transformer_v3
+  checkpoint: checkpoints/point_transformer_v3.pth
+  grid_size: 0.02
+  # Set according to the checkpoint, e.g. module.backbone. for a wrapped model.
+  state_prefix: ""
+  kwargs:
+    in_channels: 6
+    enable_flash: false

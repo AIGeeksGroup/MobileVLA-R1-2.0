@@ -1,0 +1,54 @@
+seed: 42
+stage: grpo
+init_checkpoint: outputs/action_sft/final
+model:
+  # Local NaVILA checkpoint containing llm/, vision_tower/, mm_projector/.
+  base_model: checkpoints/navila
+  rgb_projector: checkpoints/navila/mm_projector
+  dtype: bfloat16
+  attention: sdpa
+  max_length: 8192
+  gradient_checkpointing: true
+  decoder_heads: 8
+  # EXAMPLE vocabulary, not an official vocabulary recovered from the paper.
+  behaviors: [locomotion, stop, stand, sit, crawl, unload, reach, grasp, lift, transport, place]
+  feature_dims: {rgb: 1152, depth: 1024, point: 64}
+  # Engineering budgets, not manuscript-specified hyperparameters.
+  token_budgets: {rgb: 1024, depth: 256, point: 256}
+  rgb_tokens_per_frame: 729
+  required_modalities: [rgb, depth, point]
+  encoders:
+    rgb: {type: cached}
+    depth: {type: cached}
+    point: {type: cached}
+  lora:
+    rank: 16
+    alpha: 32
+    targets: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+data:
+  path: data/step_train.jsonl
+  root: data
+training:
+  output_dir: outputs/grpo
+  steps: 1000
+  save_every: 100
+  learning_rate: 0.000001
+  weight_decay: 0.01
+  warmup_ratio: 0.03
+  gradient_accumulation_steps: 4
+  max_grad_norm: 1.0
+  log_every: 10
+  omega_weight: 0.5
+  loc_weight: 1.0
+  beh_weight: 1.0
+grpo:
+  group_size: 8
+  prompts_per_update: 5
+  max_new_tokens: 512
+  movement_weight: 1.0
+  behavior_weight: 1.0
+  format_weight: 0.2
+  velocity_scale: 1.0
+  yaw_scale: 1.0
+  beta: 0.04
+  clip: 0.2

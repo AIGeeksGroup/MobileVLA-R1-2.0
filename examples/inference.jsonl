@@ -1,0 +1,1 @@
+{"id":"observation-0001","split":"test","granularity":"step","instruction":"Approach the chair slowly.","observation":{"rgb":{"features":"features/rgb.npy"},"depth":{"features":"features/depth.npy"},"point":{"features":"features/point.npy"}}}
