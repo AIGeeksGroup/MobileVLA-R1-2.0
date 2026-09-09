@@ -8,7 +8,7 @@ Code implementation for the paper:
 >
 > \*Equal contribution. †Project lead. ‡Corresponding author.
 > 
-> ### [Paper]() | [Website](https://aigeeksgroup.github.io/MobileVLA-R1-2.0/) | [Model](https://huggingface.co/AIGeeksGroup/MobileVLA-R1-2.0)
+> ### [Paper](https://arxiv.org/abs/2609.06251) | [Website](https://aigeeksgroup.github.io/MobileVLA-R1-2.0/) | [Model](https://huggingface.co/AIGeeksGroup/MobileVLA-R1-2.0)
 
 ---
 
